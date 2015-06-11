@@ -4,6 +4,7 @@ var mc = (mc) ? mc : {};
 mc.data = (mc.data) ? mc.data : {};
 
 mc.data.action = [
+  'suggests random ideas',
   'makes a sound',
   'vibrates',
   'plays a song',
@@ -23,5 +24,8 @@ mc.data.action = [
   'notifies your relatives',
   'self-destroys',
   'sends you an SMS',
-  'takes a picture'
+  'takes a picture',
+  'dispenses a candy',
+  'orders beer',
+  'orders pizza'
 ];

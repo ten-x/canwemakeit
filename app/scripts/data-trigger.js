@@ -4,6 +4,7 @@ var mc = (mc) ? mc : {};
 mc.data = (mc.data) ? mc.data : {};
 
 mc.data.trigger = [
+  'you push a button',
   'somebody comes in',
   'it\'s wet',
   'it gets dark',
@@ -12,7 +13,6 @@ mc.data.trigger = [
   'people laugh',
   'sun rises',
   'it gets loud',
-  'you push a button',
   'it starts snowing',
   'somebody pushes a button',
   'there is a fire',

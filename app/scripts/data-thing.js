@@ -15,6 +15,9 @@ mc.data.thing = [
   'toy',
   'book',
   'kitchen appliance',
+  'vending machine',
+  'rocket',
+  'ball',
   'box',
   'TV set'
 ];

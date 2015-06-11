@@ -118,7 +118,7 @@ $(document).ready(function() {
     render();
   };
 
-  doMc();
+  render();
 
   $('#next-button').on('click', doMc);
   $('body').on('click', '.mc-item', function(e){

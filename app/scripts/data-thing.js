@@ -19,5 +19,6 @@ mc.data.thing = [
   'rocket',
   'ball',
   'box',
-  'TV set'
+  'TV set',
+  'social network'
 ];

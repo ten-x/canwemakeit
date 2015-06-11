@@ -419,8 +419,8 @@ module.exports = function (grunt) {
     'copy:fontawesome',
     'copy:cname',
     'rev',
-    'usemin',
-    'htmlmin'
+    'usemin'
+    //'htmlmin' ??for some reason this removes "type='text'" from input fields which is not good
   ]);
 
   grunt.registerTask('default', [

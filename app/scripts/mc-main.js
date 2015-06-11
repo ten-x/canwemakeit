@@ -9,6 +9,7 @@ if(!_ || !Handlebars) {
 var mc = (mc) ? mc : {};
 
 mc.probabilityForAndOr = 0.2;
+mc.version = '1';
 
 mc.types = [
   'thing',
@@ -46,6 +47,7 @@ $(document).ready(function() {
       ctaContext[type] = renderOne(type);
     });
     $('.mc-content').html(ctaTemplate(ctaContext));
+    updateUrlState();
   };
 
   //render one type
@@ -113,18 +115,114 @@ $(document).ready(function() {
     mc.state[groupType] = currentGroupState;
   };
 
+  var getUrlParams = function(name) {
+    var hash = window.location.hash;
+    if(!hash) {
+      return 0;
+    }
+    try {
+      hash = window.atob(window.location.hash.split('#')[1]);
+    } catch(e) {
+      //console.log(e);
+      return 0;
+    }
+
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(hash);
+    if (results === null){
+      return null;
+    }
+    else{
+      return results[1] || 0;
+    }
+  };
+
+  var updateMcFromUrl = function() {
+    var version = getUrlParams('v');
+    if(version !== mc.version) {
+      return;
+    }
+    var typeUrlData;
+    _.each(mc.types, function(type){
+      typeUrlData = getUrlParams(type);
+      //TODO: take care of connectors
+      if(!typeUrlData) {
+        return;
+      }
+      var urlParamArray = typeUrlData.split('+');
+      var hasConnectors = (urlParamArray.length === 3);
+      if(!hasConnectors) {
+        if(checkItemType(type, typeUrlData)) {
+          mc.state[type][type+'1'] = typeUrlData;
+        }
+      } else { //so we hae connectors - take care of them manually
+        if(checkItemType(type, urlParamArray[0]) && checkItemType(type, urlParamArray[2]) && checkItemType('connector', urlParamArray[1])) {
+          mc.state[type][type+'1'] = urlParamArray[0];
+          mc.state[type][type+'2'] = urlParamArray[2];
+          mc.state[type].connector = urlParamArray[1];
+        } else {
+          mc.state[type][type+'1'] = 0;
+        }
+      }
+
+    });
+  };
+
+  //double check that exists and looks like a number and in range
+  var checkItemType = function(type, item) {
+    var allGood = true;
+    if(isNaN(item)) {
+      allGood = false;
+    }
+    if(mc.data[type].length <= item) {
+      allGood = false;
+    }
+    if(item < 0) {
+      allGood = false;
+    }
+    return allGood;
+  };
+
+  var updateUrlState = function() {
+    var hash = '/?v='+mc.version;
+    _.each(mc.types, function(type) {
+      hash += '&' + type + '=' + mc.state[type][type+'1'];
+      if(mc.state[type][type+'2']) {
+        hash += '+' + mc.state[type].connector + '+' + mc.state[type][type+'2'];
+      }
+    });
+    //encode hash base64 for beauty reasons
+    hash = window.btoa(hash);
+    window.location.hash = hash;
+    $('#shareUrlInputField').val(window.location.protocol + '//' + window.location.host + '/#' + hash);
+  };
+
+  var attachEventListeners = function() {
+    $('#next-button').on('click', doMc);
+    $('#share-button').on('click', function(e) {
+      e.preventDefault();
+      $('#shareModal').foundation('reveal', 'open');
+      setTimeout(function(){
+        $('#shareUrlInputField').select();
+      },300);
+    });
+    $('#buttonCloseShareModal').on('click', function() {
+      $('#shareModal').foundation('reveal', 'close');
+    });
+    $('body').on('click', '.mc-item', function(e){
+      updateOneItem($(e.target));
+      render();
+    });
+  };
+
+  
   var doMc = function() {
     randomState();
     render();
   };
-
+  
+  attachEventListeners();
+  updateMcFromUrl(); 
   render();
-
-  $('#next-button').on('click', doMc);
-  $('body').on('click', '.mc-item', function(e){
-    updateOneItem($(e.target));
-    render();
-  });
 
 });
 

@@ -1,0 +1,88 @@
+// bower:scss
+// endbower
+
+//colors
+$light-grey: #999;
+$white: #ededed;
+$black: #000;
+$trigger: #e52ca0;
+$logic: #fe6f09;
+$action: #99cc00;
+
+body {
+  background: $white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+* {
+  transition:         all 0.2s ease-in-out;
+}
+
+.spaced {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  @media only screen and (max-width:40.0625em) {
+    margin-bottom: 7%;
+  }
+}
+
+h1 {
+  font-size: 350%;
+  line-height: 164%;
+  letter-spacing: -2px;
+  font-weight: 700;
+  @media only screen and (max-width:40.0625em) {
+    font-size: 200%;
+    line-height: 196%;
+  }
+}
+
+.mc-item {
+  cursor: pointer;
+  padding: 12px;
+  color: $white;
+  @media only screen and (min-width:40.0625em) {
+    white-space: nowrap;
+  }
+}
+
+.thing {
+  background-color: $black;
+}
+.logic {
+  background-color: $logic;
+}
+.action {
+  background-color: $action;
+}
+.trigger {
+  background-color: $trigger;
+}
+
+.mc-action-button {
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 400%;
+  color: $light-grey;
+  &:hover {
+    color: $black;
+  }
+}
+
+.footer {
+  color: $light-grey;
+  a, a:hover, a:active, a:link {
+    color: $light-grey;
+    text-decoration: none;
+    border-bottom: 1px dotted $light-grey;
+  }
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
